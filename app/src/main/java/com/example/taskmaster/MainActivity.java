@@ -1,6 +1,8 @@
 package com.example.taskmaster;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,69 +13,19 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        // get buttons
-        Button addTaskBtn = findViewById(R.id.addTaskBtn);
-        Button allTaskBtn = findViewById(R.id.allTasksBtn);
-
-        // click listeners
-        addTaskBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent goToAddTask = new Intent(MainActivity.this, AddTaskActivity.class);
-                startActivity(goToAddTask);
-            }
-        });
-
-        allTaskBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent goToAllTasks = new Intent(MainActivity.this, AllTasksActivity.class);
-                startActivity(goToAllTasks);
-            }
-        });
-
-        ////////////////////////////////////////// lab 27 //////////////////////////////////////////
-        // get buttons
-        Button task1Btn = findViewById(R.id.homeTask1Btn);
-        Button task2Btn = findViewById(R.id.homeTask2Btn);
-        Button task3Btn = findViewById(R.id.homeTask3Btn);
+        //////////////////////////////////////// lab 27 //////////////////////////////////
         Button settings = findViewById(R.id.homeSettingsBtn);
 
         // listners
-        task1Btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent goToTaskDetail = new Intent(MainActivity.this, TaskDetailActivity.class);
-                String btnText = task1Btn.getText().toString();
-                goToTaskDetail.putExtra("task",btnText);
-                startActivity(goToTaskDetail);
-            }
-        });
-        task2Btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent goToTaskDetail = new Intent(MainActivity.this, TaskDetailActivity.class);
-                String btnText = task2Btn.getText().toString();
-                goToTaskDetail.putExtra("task",btnText);
-                startActivity(goToTaskDetail);
-            }
-        });
-        task3Btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent goToTaskDetail = new Intent(MainActivity.this, TaskDetailActivity.class);
-                String btnText = task3Btn.getText().toString();
-                goToTaskDetail.putExtra("task",btnText);
-                startActivity(goToTaskDetail);
-            }
-        });
         settings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,6 +33,22 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(goToSettings);
             }
         });
+
+        //////////////////////////////////////// lab 28 //////////////////////////////////
+        // hardcoded tasks
+        List<Task> allTasks = new ArrayList<>();
+        allTasks.add(new Task("play","playstation","new"));
+        allTasks.add(new Task("visit","grandma","complete"));
+        allTasks.add(new Task("buy","car","in progress"));
+
+        // get recycler view
+        RecyclerView allTasksRecyclerView = findViewById(R.id.taskListRecyclerView);
+
+        // set layout manager for the view (determine if liner list or grid list)
+        allTasksRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        // set the adapter for this recycler
+        allTasksRecyclerView.setAdapter(new TaskAdapter(allTasks));
     }
 
     @Override
