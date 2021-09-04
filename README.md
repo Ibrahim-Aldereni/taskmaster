@@ -11,3 +11,7 @@
 - Lab28 >> create a recycler view to show 3 harcoded tasks.
 
   ![lab28](screenshots/lab28.png)
+
+- Lab29 >> store Task data in a local database.
+
+  ![lab29](screenshots/lab29.png)
