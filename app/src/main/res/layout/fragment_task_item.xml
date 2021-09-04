@@ -31,10 +31,10 @@
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="@+id/taskTitleFragment"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.338"
+            app:layout_constraintHorizontal_bias="0.29"
             app:layout_constraintStart_toEndOf="@+id/taskTitleFragment"
             app:layout_constraintTop_toTopOf="@+id/taskTitleFragment"
-            app:layout_constraintVertical_bias="0.065" />
+            app:layout_constraintVertical_bias="0.0" />
 
         <TextView
             android:id="@+id/taskStateFragment"

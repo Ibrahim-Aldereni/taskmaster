@@ -3,6 +3,7 @@ package com.example.taskmaster;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -17,13 +18,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-
+    AppDatabase appDatabase;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //////////////////////////////////////// lab 27 //////////////////////////////////
         Button settings = findViewById(R.id.homeSettingsBtn);
+        Button addTask = findViewById(R.id.homeAddtaskBtn);
 
         // listners
         settings.setOnClickListener(new View.OnClickListener() {
@@ -34,12 +36,18 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //////////////////////////////////////// lab 28 //////////////////////////////////
-        // hardcoded tasks
-        List<Task> allTasks = new ArrayList<>();
-        allTasks.add(new Task("play","playstation","new"));
-        allTasks.add(new Task("visit","grandma","complete"));
-        allTasks.add(new Task("buy","car","in progress"));
+        addTask.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent goToAddTaskPage= new Intent(MainActivity.this, AddTaskActivity.class);
+                startActivity(goToAddTaskPage);
+            }
+        });
+
+        //////////////////////////////////////// lab 29 //////////////////////////////////
+        // tasks from database
+        appDatabase = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "tasks").allowMainThreadQueries().fallbackToDestructiveMigration().build();
+        List<Task> allTasks = appDatabase.taskDao().getAll();
 
         // get recycler view
         RecyclerView allTasksRecyclerView = findViewById(R.id.taskListRecyclerView);

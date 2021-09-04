@@ -12,11 +12,10 @@
         android:layout_height="wrap_content"
         android:text="Settings"
         app:backgroundTint="#767676"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/homeAddtaskBtn"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.931" />
+        app:layout_constraintHorizontal_bias="0.809"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/homeUserTasksTitle"
@@ -36,11 +35,24 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/taskListRecyclerView"
         android:layout_width="336dp"
-        android:layout_height="0dp"
+        android:layout_height="420dp"
         app:layout_constraintBottom_toTopOf="@+id/homeSettingsBtn"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/homeUserTasksTitle"
-        app:layout_constraintVertical_bias="0.122" />
+        app:layout_constraintVertical_bias="0.256" />
+
+    <Button
+        android:id="@+id/homeAddtaskBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add Task"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/homeSettingsBtn"
+        app:layout_constraintHorizontal_bias="0.398"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/taskListRecyclerView"
+        app:layout_constraintVertical_bias="0.888" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
