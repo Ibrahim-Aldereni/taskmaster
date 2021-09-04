@@ -1,5 +1,6 @@
 package com.example.taskmaster;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TasksViewHolder>{
+public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TasksViewHolder> {
     // set the list that the adapter will use to bind data to the fragment
     List<Task> allTasks = new ArrayList<>();
 
@@ -22,7 +23,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TasksViewHolde
     }
 
     // creating view holder class
-    public static class TasksViewHolder extends RecyclerView.ViewHolder{
+    public static class TasksViewHolder extends RecyclerView.ViewHolder {
 
         //task object
         public Task task;
@@ -32,6 +33,15 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TasksViewHolde
         public TasksViewHolder(@NonNull View itemView) {
             super(itemView);
             this.itemView = itemView;
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent goToTaskDetails = new Intent(v.getContext(), TaskDetailActivity.class);
+                    goToTaskDetails.putExtra("task", task.title+' '+task.body);
+                    v.getContext().startActivity(goToTaskDetails);
+                }
+            });
         }
     }
 
@@ -39,7 +49,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TasksViewHolde
     @Override
     public TasksViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         // create the view
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.fragment_task_item,viewGroup,false);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.fragment_task_item, viewGroup, false);
         TasksViewHolder tasksViewHolder = new TasksViewHolder(view);
         return tasksViewHolder;
     }
