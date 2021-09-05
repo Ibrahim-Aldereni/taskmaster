@@ -3,6 +3,7 @@ package com.example.taskmaster;
 import android.content.Context;
 
 import androidx.test.espresso.Espresso;
+import androidx.test.espresso.contrib.RecyclerViewActions;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
@@ -11,14 +12,15 @@ import org.junit.runner.RunWith;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
+import androidx.test.espresso.matcher.ViewMatchers.*;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
-
+import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.actionWithAssertions;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.typeText;
@@ -65,5 +67,30 @@ public class ExampleInstrumentedTest {
         onView(withId(R.id.homeSettingsBtn)).perform(click());
         // 2- check if the setting text field is displayed
         onView(withId(R.id.settingsTextField)).check(matches(isDisplayed()));
+    }
+
+    // test home page recycler view is displayed
+    @Test
+    public void useAppContext3() {
+        // check if the recycler view is displayed
+        onView(withId(R.id.taskListRecyclerView)).check(matches(isDisplayed()));
+    }
+
+    // test when press on 1st task on homepage it will show correct task on details page
+    @Test
+    public void useAppContext4() {
+        // 1- press 1st task on homepage
+        onView(withId(R.id.taskListRecyclerView)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+        // 2- check details page
+        onView(withId(R.id.taskDetailTitle)).check(matches(withText("play football complete")));
+    }
+
+    // test when press on 2nd task on homepage it will show correct task on details page
+    @Test
+    public void useAppContext5() {
+        // 1- press 2nd task on homepage
+        onView(withId(R.id.taskListRecyclerView)).perform(RecyclerViewActions.actionOnItemAtPosition(1, click()));
+        // 2- check details page
+        onView(withId(R.id.taskDetailTitle)).check(matches(withText("buy computer in progress")));
     }
 }
