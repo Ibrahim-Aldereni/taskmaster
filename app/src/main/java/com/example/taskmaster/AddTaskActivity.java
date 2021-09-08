@@ -54,7 +54,7 @@ public class AddTaskActivity extends AppCompatActivity {
 
                 Amplify.API.mutate(
                         ModelMutation.create(task),
-                        response -> Log.i("MyAmplifyApp", "Added Todo with id: " + response.getData().getId()),
+                        response -> Log.i("MyAmplifyApp", "Added Task with id: " + response.getData().getId()),
                         error -> Log.e("MyAmplifyApp", "Create failed", error)
                 );
 
