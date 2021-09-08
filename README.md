@@ -16,7 +16,7 @@
 
   ![lab29](screenshots/lab29.png)
 
-- Lab31 >> add 5 espresso tests.
+- Lab31 >> add five espresso tests.
 
 - Lab32 >> connect the project to aws amplify.
 
