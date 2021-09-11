@@ -21,20 +21,24 @@ import android.widget.Toast;
 
 import com.amplifyframework.AmplifyException;
 import com.amplifyframework.api.aws.AWSApiPlugin;
+import com.amplifyframework.api.graphql.model.ModelMutation;
 import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.Task;
+import com.amplifyframework.datastore.generated.model.Team;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-//    AppDatabase appDatabase;
+    String teamName = "";
+    StringBuilder teamId = new StringBuilder();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-     //////////////////////////////////////// lab 32 //////////////////////////////////
+        //////////////////////////////////////// lab 32 //////////////////////////////////
         try {
             // Add these lines to add the AWSApiPlugin plugins
             Amplify.addPlugin(new AWSApiPlugin());
@@ -53,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         settings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent goToSettings= new Intent(MainActivity.this, SettingsActivity.class);
+                Intent goToSettings = new Intent(MainActivity.this, SettingsActivity.class);
                 startActivity(goToSettings);
             }
         });
@@ -61,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
         addTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent goToAddTaskPage= new Intent(MainActivity.this, AddTaskActivity.class);
+                Intent goToAddTaskPage = new Intent(MainActivity.this, AddTaskActivity.class);
                 startActivity(goToAddTaskPage);
             }
         });
@@ -89,16 +93,31 @@ public class MainActivity extends AppCompatActivity {
 
         // get data from database
         Amplify.API.query(
-                ModelQuery.list(Task.class),
+                ModelQuery.list(Team.class),
                 response -> {
-                    for (Task task : response.getData()) {
-//                        Log.i("MyAmplifyApp", task.getTitle());
-                        allTasks.add(task);
+                    for (Team team : response.getData()) {
+                        if (team.getName().equals(teamName)) {
+                            teamId.append(team.getId());
+                        }
                     }
-                    handler.sendEmptyMessage(1);
+
+                    // get task by teamid to database
+                    Amplify.API.query(
+                            ModelQuery.list(Task.class),
+                            response2 -> {
+                                for (Task task : response2.getData()) {
+                                    if (task.getTeamId().equals(teamId.toString()))
+                                        allTasks.add(task);
+                                }
+                                handler.sendEmptyMessage(1);
+                            },
+                            error -> Log.e("MyAmplifyApp", "Query failure", error)
+                    );
+
                 },
                 error -> Log.e("MyAmplifyApp", "Query failure", error)
         );
+
     }
 
     @Override
@@ -106,9 +125,10 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
-        String userName = sharedPreferences.getString("userName","X");
+        String userName = sharedPreferences.getString("userName", "X");
 
         TextView nameView = findViewById(R.id.homeUserTasksTitle);
         nameView.setText(userName + " tasks");
+        teamName = userName;
     }
 }

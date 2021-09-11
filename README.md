@@ -21,3 +21,8 @@
 - Lab32 >> connect the project to aws amplify.
 
   ![lab32](screenshots/lab32.png)
+
+- Lab33 >> add one-to-many relationship between team and task tables.
+
+  ![lab33-demo](screenshots/lab33gif.gif)
+  ![lab33-db](screenshots/lab33db.png)
