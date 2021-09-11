@@ -33,6 +33,10 @@ public class SettingsActivity extends AppCompatActivity {
                 // save to shared prefrences
                 sharedPreferencesEditor.putString("userName",name);
                 sharedPreferencesEditor.apply();
+
+                // return to homepage
+                Intent goToHomePage = new Intent(SettingsActivity.this, MainActivity.class);
+                startActivity(goToHomePage);
             }
         });
     }
